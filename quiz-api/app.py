@@ -3,8 +3,10 @@ from Question import Question
 from Quiz import Quiz
 import jwt_utils
 import sqlite3
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def authent():
     jwt = request.headers.get('Authorization')
@@ -114,4 +116,4 @@ def DeleteAnswers():
     return '', 204
 
 if __name__ == "__main__":
-    app.run(ssl_context='adhoc')
+    app.run()
