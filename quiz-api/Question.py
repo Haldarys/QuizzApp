@@ -33,6 +33,14 @@ class Question():
             }
         )
     
+    def getCorrectAnswer(self):
+        i = 1
+        for answer in self.possibleAnswers:
+            if answer['isCorrect']:
+                return i
+            i += 1
+        return False
+    
     @staticmethod
     def fromJson(jsonInput: str):
         input = json.loads(jsonInput)
@@ -82,7 +90,43 @@ class Question():
         return Question(res_question["title"], res_question["text"], res_question["image"], res_question["position"], possibleAnswers, id)
     
     @staticmethod
+    def allQuestions():
+        try:
+            db_conn = sqlite3.connect("./quiz.db")
+            db_conn.isolation_level = None
+            db_conn.row_factory = sqlite3.Row
+            cur = db_conn.cursor()
+
+            # get question from db
+            select_result = cur.execute(
+                "SELECT id, text, title, image, position FROM Questions"
+            )
+            res_question = select_result.fetchall()
+            if(res_question is None):
+                return False
+            
+            questions = []
+            for qst in res_question:
+                questions.append(Question(qst["title"], qst["text"], qst["image"], qst["position"], [], qst["id"]))
+
+            # get question answers from db
+            select_result = cur.execute(
+                "SELECT id, question_id, text, isCorrect FROM Answers"
+            )
+            res_answer = select_result.fetchall()
+            for qst in questions:
+                for answer in res_answer:
+                    if answer['question_id'] == qst.index:
+                        qst.possibleAnswers.append(dict(answer))
+
+        except sqlite3.Error as err:
+            return False
+        
+        return questions
+    
+    @staticmethod
     def saveToDb(qst):
+        # Peut ajouter vérif si aucune réponse n'est valide
         if qst.index >= 1:
             return Question.updateIntoDb(qst)
         else:
