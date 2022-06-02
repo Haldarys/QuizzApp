@@ -22,7 +22,7 @@ export default {
   methods: {
     launchNewQuiz() {
       participationStorageService.savePlayerName(this.username);
-      console.log("Launch new quiz with", this.username);
+      this.$router.push('/questions');
     },
   }
 }

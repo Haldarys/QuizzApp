@@ -8,50 +8,50 @@
 //
 // Question dans QuestionDisplay à remplacer par la question en cours
 //
-import QuestionDisplay from "@/components/QuestionDisplay.vue";
-import QuizApiService from '../services/QuizApiService';
-import ParticipationStorageService from "../services/ParticipationStorageService";
+import questionDisplay from "@/components/QuestionDisplay.vue";
+import quizApiService from '../services/QuizApiService';
+import participationStorageService from "../services/ParticipationStorageService";
 
 export default {
   name: "QuestionsManager",
   data() {
     return {
       currentQuestion: {
-        'title': 'La géo tu connais ?',
-        'text': 'Quelle est la capitale du Togo ?',
-        'image': 'nope je vais pas écrire du binaire',
-        'position': 1,
-        'possibleAnswers': [{ 'text': 'Madrid' }, { 'text': 'Lomé' }, { 'text': 'Bonta' }, { 'text': 'Tirana' }]
       },
-      currentScore: []
+      currentScore: [],
+      size: 0
     }
   },
   components: {
-    QuestionDisplay
+    QuestionDisplay: questionDisplay
+  },
+  async created() {
+    var quizInfo = await quizApiService.getQuizInfo();
+    this.size = quizInfo.data.size;
+    await this.loadQuestionByPosition(1);
+    console.log(participationStorageService.getPlayerName());
   },
   methods: {
 
     async loadQuestionByPosition(position) {
-      var question;
-      try {
-        question = await QuizApiService.getQuestion(position);
-      }
-      catch (e) {
-        this.endQuiz();
-        return;
-      }
+      let question = await quizApiService.getQuestion(position);
       this.currentQuestion = question.data;
 
 
     },
     async answerClickedHandler(position) {
       this.currentScore.push(position);
-      let questionPosition = this.currentScore.length;
+      let questionPosition = this.currentScore.length + 1;
+      if (questionPosition > this.size) {
+        this.endQuiz();
+        return;
+      }
       this.loadQuestionByPosition(questionPosition);
-
     },
-    async endQuiz(position) {
-
+    async endQuiz() {
+      var participationResult = await quizApiService.sendParticipation(participationStorageService.getPlayerName(), this.currentScore);
+      participationStorageService.saveParticipationScore(participationResult.data.score);
+      this.$router.push('/scorePage');
     }
   }
 };

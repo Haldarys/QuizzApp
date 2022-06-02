@@ -5,7 +5,7 @@
     <img v-if="question.image" :src="question.image" />
     <div class="answers">
       <a class="btn" v-for="(answer, index) in question.possibleAnswers" :key="answer.text"
-        @click="$emit('clickOnAnswer', index)">
+        @click="$emit('clickOnAnswer', index + 1)">
         {{ answer.text }}
       </a>
     </div>
