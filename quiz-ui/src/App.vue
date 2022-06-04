@@ -3,30 +3,25 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
+  <Header></Header>
+  <div class="container-fluid">
 
-    <div class="wrapper">
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/questions">(test) questions</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <style>
 @import '@/assets/base.css';
 
 #app {
-  max-width: 1280px;
+  top: 0;
+  width: 70%;
+  max-height: 100%;
   margin: 0 auto;
   padding: 2rem;
-
+  background-color: transparent;
   font-weight: normal;
+  text-align: center;
 }
 
 header {
@@ -79,13 +74,16 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
     display: flex;
-    place-items: center;
+    background: rgb(164, 206, 246);
+    background: linear-gradient(90deg, rgba(164, 206, 246, 1) 13%, rgba(188, 230, 251, 1) 28%, rgba(237, 189, 254, 1) 52%, rgba(230, 144, 255, 0.9920168751094187) 62%, rgba(208, 207, 255, 1) 90%);
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  i #app {
+    display: flex;
+    flex-flow: column;
     padding: 0 2rem;
   }
 
@@ -105,6 +103,10 @@ nav a:first-of-type {
     margin: 0 2rem 0 0;
   }
 
+  h1 {
+    text-shadow: 1px 1px black;
+  }
+
   nav {
     text-align: left;
     margin-left: -1rem;
@@ -115,3 +117,12 @@ nav a:first-of-type {
   }
 }
 </style>
+
+<script>
+import Header from './components/Header.vue';
+export default {
+  components: {
+    Header
+  }
+}
+</script>
