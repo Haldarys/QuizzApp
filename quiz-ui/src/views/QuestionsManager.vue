@@ -29,7 +29,6 @@ export default {
     var quizInfo = await quizApiService.getQuizInfo();
     this.size = quizInfo.data.size;
     await this.loadQuestionByPosition(1);
-    console.log(participationStorageService.getPlayerName());
   },
   methods: {
 

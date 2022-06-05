@@ -1,9 +1,8 @@
 <template>
-  <h1>Home page</h1>
-  <div class="row">
+  <h1 class="mt-5">Bienvenue dans le Quizz !</h1>
+  <router-link to="/start-new-quiz-page" class="mt-5 btn btn-secondary btn-lg">Démarrer le quiz !
+  </router-link>
 
-  </div>
-  <router-link to="/start-new-quiz-page">Démarrer le quiz !</router-link>
 </template>
 
 
@@ -18,11 +17,7 @@ export default {
   async created() {
     var quizInfo = quizApiService.getQuizInfo();
     var quizInfoResult = await quizInfo;
-    console.log(quizInfoResult);
-
     this.registeredScores = quizInfoResult.data.scores;
-    console.log(this.registeredScores);
-    console.log("Composant Home page 'created'");
   }
 };
 </script>

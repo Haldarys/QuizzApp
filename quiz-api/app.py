@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request
 from Question import Question
 from Quiz import Quiz
@@ -27,6 +28,7 @@ def hello_world():
 @app.route('/login', methods=['POST'])
 def PostLogin():
     payload = request.get_json()
+    print(payload)
     if(payload['password'] == 'Vive l\'ESIEE !'):
         return {"token": jwt_utils.build_token()}, 200
     return '', 401
@@ -50,6 +52,13 @@ def PostQuestion():
         return '', 500
 
     return '', 200
+
+@app.route('/allQuestions', methods=['GET'])
+def GetAllQuestions():
+    allQst = Question.allQuestions()
+    if(not allQst):
+        return '', 404
+    return json.dumps([qst.toJson() for qst in allQst]), 200
 
 @app.route('/questions/<position>', methods=['GET'])
 def GetQuestion(position):

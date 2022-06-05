@@ -1,12 +1,10 @@
 <template>
-  <div class="Question m-auto">
-    <div class="">
-      <span>{{ question.title }}</span>
-      <h1>{{ question.text }}</h1>
-    </div>
+  <div class="Question mx-auto">
+    <span>{{ question.title }}</span>
+    <h1>{{ question.text }}</h1>
     <img class="img-fluid border border-2 border-light" v-if="question.image" :src="question.image" />
-    <div class="answers">
-      <a class="btn" v-for="(answer, index) in question.possibleAnswers" :key="answer.text"
+    <div class="answers row mt-3">
+      <a class="btn border border-1 col-lg-6 p-3" v-for="(answer, index) in question.possibleAnswers" :key="answer.text"
         @click="$emit('clickOnAnswer', index + 1)">
         {{ answer.text }}
       </a>

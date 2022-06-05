@@ -8,20 +8,21 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <RouterView />
   </div>
+
 </template>
 
 <style>
 @import '@/assets/base.css';
 
+
 #app {
   top: 0;
   width: 70%;
-  max-height: 100%;
   margin: 0 auto;
-  padding: 2rem;
   background-color: transparent;
   font-weight: normal;
   text-align: center;
+  overflow-y: auto;
 }
 
 header {
@@ -75,10 +76,10 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: white;
     display: flex;
-    background: rgb(164, 206, 246);
-    background: linear-gradient(90deg, rgba(164, 206, 246, 1) 13%, rgba(188, 230, 251, 1) 28%, rgba(237, 189, 254, 1) 52%, rgba(230, 144, 255, 0.9920168751094187) 62%, rgba(208, 207, 255, 1) 90%);
+    font-size: larger;
+    overflow-y: auto;
+    height: 100vh;
   }
 
   i #app {
@@ -104,7 +105,7 @@ nav a:first-of-type {
   }
 
   h1 {
-    text-shadow: 1px 1px black;
+    text-shadow: 1px 1px grey;
   }
 
   nav {

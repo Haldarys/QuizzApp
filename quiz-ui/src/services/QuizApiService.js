@@ -33,7 +33,14 @@ export default {
   getQuestion(position) {
     return this.call("get", "questions/" + position);
   },
+  getAllQuestions() {
+    return this.call("get", "allQuestions");
+  },
   sendParticipation(playerName, scores) {
     return this.call("post", "participations", { "playerName": playerName, "answers": scores });
+  },
+  loginAdmin(password) {
+    return this.call("post", "login", { "password": password });
   }
 };
+

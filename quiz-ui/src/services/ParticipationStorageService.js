@@ -1,6 +1,6 @@
 export default {
   clear() {
-    // todo : implement
+    window.localStorage.clear();
   },
   savePlayerName(playerName) {
     window.localStorage.setItem("playerName", playerName);
@@ -13,5 +13,11 @@ export default {
   },
   getParticipationScore() {
     return window.localStorage.getItem("participationScore");
+  },
+  saveToken(token) {
+    window.localStorage.setItem("token", token)// todo : implement
+  },
+  getToken() {
+    return window.localStorage.getItem("token");
   }
 };

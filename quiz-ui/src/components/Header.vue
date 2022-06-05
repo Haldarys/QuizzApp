@@ -12,7 +12,7 @@
             <RouterLink to="/about" class="nav-link">About</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/loginPage" class="nav-link">Login</RouterLink>
+            <RouterLink to="/adminPage" class="nav-link">Admin</RouterLink>
           </li>
         </ul>
       </div>
