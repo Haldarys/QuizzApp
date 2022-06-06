@@ -14,7 +14,6 @@
 <script>
 import quizApiService from "../services/QuizApiService";
 import QuestionListVue from "../components/QuestionList.vue";
-import QuestionEditionVue from "../components/QuestionEdition.vue";
 import participationStorageService from "../services/ParticipationStorageService";
 export default {
   name: "AdminPage",
@@ -29,7 +28,8 @@ export default {
   methods: {
     async login() {
       var requestObject = await quizApiService.loginAdmin(this.password);
-      if (requestObject != undefined) {
+      console.log(requestObject);
+      if (requestObject.status == 200) {
         participationStorageService.saveToken(requestObject.data.token);
         this.adminMode = true;
       }
@@ -38,7 +38,6 @@ export default {
   },
   components: {
     QuestionListVue,
-    QuestionEditionVue,
   }
 }
 

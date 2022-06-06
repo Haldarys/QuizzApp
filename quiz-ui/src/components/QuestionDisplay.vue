@@ -2,7 +2,7 @@
   <div class="Question mx-auto">
     <span>{{ question.title }}</span>
     <h1>{{ question.text }}</h1>
-    <img class="img-fluid border border-2 border-light" v-if="question.image" :src="question.image" />
+    <img class="img-fluid imgQuiz border border-2 border-light" v-if="question.image" :src="question.image" />
     <div class="answers row mt-3">
       <a class="btn border border-1 col-lg-6 p-3" v-for="(answer, index) in question.possibleAnswers" :key="answer.text"
         @click="$emit('clickOnAnswer', index + 1)">

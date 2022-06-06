@@ -40,6 +40,11 @@ const router = createRouter({
       path: '/adminPage',
       name: 'AdminPage',
       component: AdminPage
+    },
+    {
+      path: '/questionAdmin/:position',
+      name: 'QuestionsAdmin',
+      component: QuestionsManager
     }
   ]
 })

@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
   background-color: transparent;
   font-weight: normal;
   text-align: center;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 header {
@@ -115,6 +115,14 @@ nav a:first-of-type {
 
     padding: 1rem 0;
     margin-top: 1rem;
+  }
+
+  .editQuestion {
+    display: none;
+  }
+
+  tr:hover>.editQuestion {
+    display: block;
   }
 }
 </style>

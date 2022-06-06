@@ -25,6 +25,7 @@ export default {
       })
       .catch((error) => {
         console.error(error);
+        return { status: error.response.status, data: error.message };
       });
   },
   getQuizInfo() {
@@ -41,6 +42,15 @@ export default {
   },
   loginAdmin(password) {
     return this.call("post", "login", { "password": password });
-  }
+  },
+  saveQuestion(position, question, token = null) {
+    return this.call("put", "questions/" + position, question, token);
+  },
+  addQuestion(question, token = null) {
+    return this.call("post", "questions", question, token);
+  },
+  deleteQuestion(position, token = null) {
+    return this.call("delete", "questions/" + position, "", token);
+  },
 };
 

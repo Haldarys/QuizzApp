@@ -1,6 +1,11 @@
 <template>
-  <div class="questionsManager">
+  <div class="questionsManager" v-if="adminPos == undefined">
     <QuestionDisplay :question="currentQuestion" @clickOnAnswer="answerClickedHandler" />
+  </div>
+  <div class="questionsManager" v-else>
+    <QuestionAdminDisplay :question="currentQuestion" @clickOnSave="saveClickHandler"
+      @clickOnDelete="deleteClickHandler" />
+
   </div>
 </template>
 
@@ -9,6 +14,7 @@
 // Question dans QuestionDisplay à remplacer par la question en cours
 //
 import questionDisplay from "@/components/QuestionDisplay.vue";
+import questionAdminDisplay from "@/components/QuestionAdminDisplay.vue";
 import quizApiService from '../services/QuizApiService';
 import participationStorageService from "../services/ParticipationStorageService";
 
@@ -19,15 +25,22 @@ export default {
       currentQuestion: {
       },
       currentScore: [],
-      size: 0
+      size: 0,
+      adminPos: -1
     }
   },
   components: {
-    QuestionDisplay: questionDisplay
+    QuestionDisplay: questionDisplay,
+    QuestionAdminDisplay: questionAdminDisplay,
   },
   async created() {
     var quizInfo = await quizApiService.getQuizInfo();
     this.size = quizInfo.data.size;
+    this.adminPos = this.$route.params.position;
+    if (this.adminPos != undefined) {
+      await this.loadQuestionByPosition(this.adminPos);
+      return;
+    }
     await this.loadQuestionByPosition(1);
   },
   methods: {
@@ -51,6 +64,19 @@ export default {
       var participationResult = await quizApiService.sendParticipation(participationStorageService.getPlayerName(), this.currentScore);
       participationStorageService.saveParticipationScore(participationResult.data.score);
       this.$router.push('/scorePage');
+    },
+    async saveClickHandler(position, question) {
+      var saveResult = await quizApiService.saveQuestion(position, question, participationStorageService.getToken());
+      if (saveResult.status == 200) {
+        this.$router.push('/adminPage');
+      }
+    },
+    async deleteClickHandler(position) {
+      var deleteResult = await quizApiService.deleteQuestion(position, participationStorageService.getToken());
+      console.log(deleteResult);
+      if (deleteResult.status == 204) {
+        this.$router.push('/adminPage');
+      }
     }
   }
 };
@@ -59,9 +85,12 @@ export default {
 <style>
 @media (min-width: 1024px) {
   .questionsManager {
-    min-height: 100vh;
     display: flex;
     align-items: center;
   }
+}
+
+.imgQuiz {
+  max-height: 50vh;
 }
 </style>
