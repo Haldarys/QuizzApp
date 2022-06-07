@@ -1,13 +1,10 @@
 <template>
-  <div class="questionManager">
-    <div v-if="adminPos == undefined">
-      <QuestionDisplay :question="currentQuestion" @clickOnAnswer="answerClickedHandler" />
-    </div>
-    <div v-else>
-      <QuestionAdminDisplay :question="currentQuestion" @clickOnSave="saveClickHandler"
-        @clickOnDelete="deleteClickHandler" />
-
-    </div>
+  <div class="questionManager" v-if="adminPos == undefined">
+    <QuestionDisplay :question="currentQuestion" @clickOnAnswer="answerClickedHandler" />
+  </div>
+  <div class="questionManager" v-else>
+    <QuestionAdminDisplay :question="currentQuestion" @clickOnSave="saveClickHandler"
+      @clickOnDelete="deleteClickHandler" />
   </div>
   <ErrorDisplay :error="error">
   </ErrorDisplay>
@@ -31,7 +28,7 @@ export default {
       },
       currentScore: [],
       size: 0,
-      adminPos: -1,
+      adminPos: undefined,
       error: {}
     }
   },
