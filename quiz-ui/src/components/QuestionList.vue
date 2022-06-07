@@ -26,6 +26,10 @@
   </div>
   <QuestionEdition :question="questionOnEdit" mode="edit" @clickOnSave="saveClickedHandler">
   </QuestionEdition>
+  <ErrorDisplay :error="error">
+  </ErrorDisplay>
+
+
 
 
 </template>
@@ -34,13 +38,18 @@
 import quizApiService from "../services/QuizApiService";
 import questionEdition from "../components/QuestionEdition.vue";
 import participationStorageService from "../services/ParticipationStorageService";
+import errorDisplay from "./ErrorDisplay.vue";
 export default {
   name: "QuestionList",
   data() {
-    return { allQuestions: [], questionOnEdit: {}, mode: "" }
+    return { allQuestions: [], questionOnEdit: {}, mode: "", error: {} }
   },
   async created() {
     var questionResult = await quizApiService.getAllQuestions();
+    let router = this.$router;
+    $('#errorPopUp').on('hidden.bs.modal', function () {
+      router.push('/');
+    });
     if (questionResult.status != 200) {
       return;
     }
@@ -90,11 +99,17 @@ export default {
       if (saveResult.status == 200) {
         this.$router.go();
       }
+      else {
+        $("#errorPopUp").modal('toggle');
+        this.error = saveResult;
+      }
+
     },
 
   },
   components: {
-    QuestionEdition: questionEdition
+    QuestionEdition: questionEdition,
+    ErrorDisplay: errorDisplay
   },
 
 

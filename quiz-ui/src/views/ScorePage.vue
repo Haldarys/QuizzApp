@@ -1,7 +1,7 @@
-<template>
+ <template>
   <div class="container">
     <div v-if="participated" class="row mt-2">
-      <h1>Congratulation ! {{ this.playerName }} You got {{ this.currentScore }}</h1>
+      <h1>Félicitation ! {{ this.playerName }}, vous avez eu {{ this.currentScore }} points !</h1>
     </div>
 
   </div>
@@ -9,7 +9,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Player name</th>
+          <th scope="col">Nom du joueur</th>
           <th scope="col">Score<i :class="sortScoreIcon" @click="sortByScore"></i></th>
           <th scope="col">Date<i :class="sortDateIcon" @click="sortByDate"></i></th>
         </tr>

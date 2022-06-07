@@ -2,7 +2,8 @@
   <form>
     <div class="form-group">
       <label for="username" class="mt-1"> Saisissez votre nom</label>
-      <input type="text" v-model="username" id="username" class="form-control mt-1" placeholder="..." />
+      <input type="text" v-model="username" id="username" class="form-control mt-1" placeholder="..."
+        required="required" />
       <button @click="launchNewQuiz()" class="btn btn-primary btn-lg mt-1"> Go </button>
     </div>
   </form>
@@ -24,6 +25,9 @@ export default {
   },
   methods: {
     launchNewQuiz() {
+      if (this.username == "") {
+        return;
+      }
       participationStorageService.savePlayerName(this.username);
       this.$router.push('/questions');
     },

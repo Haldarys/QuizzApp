@@ -1,12 +1,16 @@
 <template>
-  <div class="questionsManager" v-if="adminPos == undefined">
-    <QuestionDisplay :question="currentQuestion" @clickOnAnswer="answerClickedHandler" />
-  </div>
-  <div class="questionsManager" v-else>
-    <QuestionAdminDisplay :question="currentQuestion" @clickOnSave="saveClickHandler"
-      @clickOnDelete="deleteClickHandler" />
+  <div class="questionManager">
+    <div v-if="adminPos == undefined">
+      <QuestionDisplay :question="currentQuestion" @clickOnAnswer="answerClickedHandler" />
+    </div>
+    <div v-else>
+      <QuestionAdminDisplay :question="currentQuestion" @clickOnSave="saveClickHandler"
+        @clickOnDelete="deleteClickHandler" />
 
+    </div>
   </div>
+  <ErrorDisplay :error="error">
+  </ErrorDisplay>
 </template>
 
 <script>
@@ -17,6 +21,7 @@ import questionDisplay from "@/components/QuestionDisplay.vue";
 import questionAdminDisplay from "@/components/QuestionAdminDisplay.vue";
 import quizApiService from '../services/QuizApiService';
 import participationStorageService from "../services/ParticipationStorageService";
+import errorDisplay from "@/components/ErrorDisplay.vue";
 
 export default {
   name: "QuestionsManager",
@@ -26,17 +31,23 @@ export default {
       },
       currentScore: [],
       size: 0,
-      adminPos: -1
+      adminPos: -1,
+      error: {}
     }
   },
   components: {
     QuestionDisplay: questionDisplay,
     QuestionAdminDisplay: questionAdminDisplay,
+    ErrorDisplay: errorDisplay
   },
   async created() {
     var quizInfo = await quizApiService.getQuizInfo();
     this.size = quizInfo.data.size;
     this.adminPos = this.$route.params.position;
+    let router = this.$router;
+    $('#errorPopUp').on('hidden.bs.modal', function () {
+      router.push('/');
+    });
     if (this.adminPos != undefined) {
       await this.loadQuestionByPosition(this.adminPos);
       return;
@@ -47,8 +58,12 @@ export default {
 
     async loadQuestionByPosition(position) {
       let question = await quizApiService.getQuestion(position);
-      this.currentQuestion = question.data;
-
+      if (question.status == 200)
+        this.currentQuestion = question.data;
+      else {
+        $("#errorPopUp").modal('toggle');
+        this.error = question;
+      }
 
     },
     async answerClickedHandler(position) {
@@ -70,6 +85,10 @@ export default {
       if (saveResult.status == 200) {
         this.$router.push('/adminPage');
       }
+      else {
+        $("#errorPopUp").modal('toggle');
+        this.error = question;
+      }
     },
     async deleteClickHandler(position) {
       if (!confirm("Êtes vous sûr de supprimer la question ?")) {
@@ -78,6 +97,10 @@ export default {
       var deleteResult = await quizApiService.deleteQuestion(position, participationStorageService.getToken());
       if (deleteResult.status == 204) {
         this.$router.push('/adminPage');
+      }
+      else {
+        $("#errorPopUp").modal('toggle');
+        this.error = question;
       }
     }
   }
