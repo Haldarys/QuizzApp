@@ -13,8 +13,8 @@
           <td>{{ question.position }}</td>
           <td>{{ question.title }}</td>
           <td>{{ question.text }}</td>
-          <button class="editQuestion" @click="onEdit(question.position)" data-toggle="modal"
-            data-target="#displayEditModal"><i class="fa fa-edit"></i></button>
+          <button class="editQuestion" @click="onEdit(index)" data-toggle="modal" data-target="#displayEditModal"><i
+              class="fa fa-edit"></i></button>
           <button class="editQuestion" @click="printQuestion(question.position)"><i class="fa fa-eye"></i></button>
         </tr>
         <tr><i class="fa fa-plus" data-toggle="modal" data-target="#displayEditModal" aria-hidden="true"
@@ -55,9 +55,9 @@ export default {
     printQuestion(position) {
       this.$router.push({ name: 'QuestionsAdmin', params: { position: position } })
     },
-    onEdit(position) {
+    onEdit(index) {
       this.mode = "edit";
-      this.questionOnEdit = this.allQuestions[position - 1];
+      this.questionOnEdit = this.allQuestions[index];
       this.questionOnEdit.possibleAnswers = this.questionOnEdit.possibleAnswers.map(element => {
         element.isCorrect = element.isCorrect == 1;
         return element;
