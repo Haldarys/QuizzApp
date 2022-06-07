@@ -40,8 +40,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="$emit('clickOnSave', question.position, editQuestion)"
-            data-dismiss="modal">Save
+          <button type="button" class="btn btn-primary" @click="emitSave()">Save
             changes</button>
         </div>
       </div>
@@ -66,7 +65,34 @@ export default {
   methods: {
     imageFileChangedHandler(b64String) {
       this.editQuestion.image = b64String;
+    },
+    checkProperties(obj) {
+      if (this.editQuestion.image != "" && this.editQuestion.text != "" && this.editQuestion.title != "" && this.editQuestion.image != "" && this.editQuestion.position != "" && !this.checkEmptyAnswers(this.editQuestion.possibleAnswers))
+        return true;
+      return false;
+    },
+    checkEmptyAnswers(possibleAnswers) {
+      var ttCorrectAnswer = 0;
+      for (let index in possibleAnswers) {
+        if (possibleAnswers[index].isCorrect == true) ttCorrectAnswer++;
+        if (possibleAnswers[index].text == "") return true;
+      }
+      if (!ttCorrectAnswer) {
+        return true;
+      }
+      return false;
+    },
+    emitSave() {
+      const isFilled = this.checkProperties(this.editQuestion);
+      if (isFilled) {
+        this.$emit('clickOnSave', this.question.position, this.editQuestion);
+        $('#displayEditModal').modal('hide');
+      }
+      else {
+        alert("Veuillez renseigner tous les champs");
+      }
     }
+
   }
   ,
   emits: ['clickOnSave'],
