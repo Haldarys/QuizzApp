@@ -53,7 +53,7 @@ def PostQuestion():
 
     return '', 200
 
-@app.route('/allQuestions', methods=['GET'])
+@app.route('/questions', methods=['GET'])
 def GetAllQuestions():
     allQst = Question.allQuestions()
     if(not allQst):
