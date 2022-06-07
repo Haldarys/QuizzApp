@@ -24,16 +24,16 @@
     </table>
 
   </div>
-  <QuestionEditionVue :question="questionOnEdit" mode="edit" @clickOnSave="saveClickedHandler">
-  </QuestionEditionVue>
+  <QuestionEdition :question="questionOnEdit" mode="edit" @clickOnSave="saveClickedHandler">
+  </QuestionEdition>
 
 
 </template>
 
 <script>
 import quizApiService from "../services/QuizApiService";
-import QuestionEditionVue from "../components/QuestionEdition.vue";
-import ParticipationStorageService from "../services/ParticipationStorageService";
+import questionEdition from "../components/QuestionEdition.vue";
+import participationStorageService from "../services/ParticipationStorageService";
 export default {
   name: "QuestionList",
   data() {
@@ -81,10 +81,10 @@ export default {
     },
     async saveClickedHandler(position, question) {
       if (this.mode == "edit") {
-        var saveResult = await quizApiService.saveQuestion(position, question, ParticipationStorageService.getToken());
+        var saveResult = await quizApiService.saveQuestion(position, question, participationStorageService.getToken());
       }
       else {
-        var saveResult = await quizApiService.addQuestion(question, ParticipationStorageService.getToken());
+        var saveResult = await quizApiService.addQuestion(question, participationStorageService.getToken());
       }
 
       if (saveResult.status == 200) {
@@ -94,7 +94,7 @@ export default {
 
   },
   components: {
-    QuestionEditionVue
+    QuestionEdition: questionEdition
   },
 
 

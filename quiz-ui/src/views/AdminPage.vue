@@ -7,13 +7,13 @@
     <button @click="login()" class="btn btn-primary">Submit</button>
   </div>
   <div v-else>
-    <QuestionListVue></QuestionListVue>
+    <QuestionList></QuestionList>
   </div>
 </template>
 
 <script>
 import quizApiService from "../services/QuizApiService";
-import QuestionListVue from "../components/QuestionList.vue";
+import questionList from "../components/QuestionList.vue";
 import participationStorageService from "../services/ParticipationStorageService";
 export default {
   name: "AdminPage",
@@ -37,7 +37,7 @@ export default {
 
   },
   components: {
-    QuestionListVue,
+    QuestionList: questionList,
   }
 }
 

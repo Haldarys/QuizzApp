@@ -72,8 +72,10 @@ export default {
       }
     },
     async deleteClickHandler(position) {
+      if (!confirm("Êtes vous sûr de supprimer la question ?")) {
+        return;
+      }
       var deleteResult = await quizApiService.deleteQuestion(position, participationStorageService.getToken());
-      console.log(deleteResult);
       if (deleteResult.status == 204) {
         this.$router.push('/adminPage');
       }

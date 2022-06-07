@@ -11,9 +11,11 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <button data-toggle="modal" data-target="#displayEditModal" aria-hidden="true">Edit</button>
-      <button @click="$emit('clickOnDelete', question.position)">Delete</button>
+    <div class="row mt-5">
+      <button class="btn btn-primary btn-lg col-lg-5" data-toggle="modal" data-target="#displayEditModal"
+        aria-hidden="true">Edit</button>
+      <button class="btn btn-danger btn-lg col-lg-5 offset-lg-2"
+        @click="$emit('clickOnDelete', question.position)">Delete</button>
     </div>
     <QuestionEdition :question="question" @clickOnSave="emitSave">
     </QuestionEdition>
