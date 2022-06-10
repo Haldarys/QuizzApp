@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
+        <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.id">
           <td>{{ scoreEntry.playerName }}</td>
           <td>{{ scoreEntry.score }}</td>
           <td>{{ scoreEntry.date }}</td>
